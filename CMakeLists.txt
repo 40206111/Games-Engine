@@ -16,11 +16,17 @@ add_subdirectory("lib/sfml")
 set(SFML_INCS "lib/sfml/include")
 link_directories("${CMAKE_BINARY_DIR}/lib/sfml/lib")
 
-### Main Project ###
+### Engine Library ###
+file(GLOB_RECURSE SOURCE_FILES engine/*.cpp engine/*.h)
+add_library(lib_engine STATIC ${SOURCE_FILES})
+target_include_directories(lib_engine INTERFACE "${CMAKE_SOURCE_DIR}/lib_engine" )
+
+### Code ###
+file(GLOB_RECURSE SOURCES Code/*.cpp Code/*.h)
 file(GLOB_RECURSE SOURCES Code/*.cpp Code/*.h)
 add_executable(Games_Engine ${SOURCES})
 target_include_directories(Games_Engine PRIVATE ${SFML_INCS})
-target_link_libraries(Games_Engine sfml-graphics)
+target_link_libraries(Games_Engine sfml-graphics lib_engine)
 
 #set working directory to build directory
 set_target_properties(${exe} PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY
