@@ -20,6 +20,7 @@ link_directories("${CMAKE_BINARY_DIR}/lib/sfml/lib")
 file(GLOB_RECURSE SOURCE_FILES engine/Code/*.cpp engine/Code/*.h)
 add_library(lib_engine STATIC ${SOURCE_FILES})
 target_include_directories(lib_engine INTERFACE "${CMAKE_SOURCE_DIR}/lib_engine" )
+target_link_libraries(lib_engine sfml-graphics)
 
 ### Code ###
 file(GLOB_RECURSE SOURCES Code/*.cpp Code/*.h)
