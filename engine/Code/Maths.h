@@ -33,6 +33,4 @@ namespace math
 
 		return vector;
 	}
-
-	//
 }
