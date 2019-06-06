@@ -2,6 +2,13 @@
 #include <map>
 #include <SFML/graphics.hpp>
 
+struct InputSystem
+{
+	enum ControlType {Keyboard, PS4, XBox};
+	std::map<unsigned int, int> controls;
+	ControlType controller = Keyboard;
+};
+
 class InputManager
 {
 public:

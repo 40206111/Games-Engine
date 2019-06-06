@@ -102,3 +102,6 @@ const std::map<InputManager::PS4, std::string> InputManager::ps4Controls = {
 	{ InputManager::PS, "PLAY STATION" },
 	{ InputManager::TOUCH, "TOUCH PAD" },
 };
+
+template <typename A, typename B>
+void Remap(InputSystem inSys, A control, B rebindTo)
