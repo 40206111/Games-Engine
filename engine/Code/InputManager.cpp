@@ -1,4 +1,7 @@
 #include "InputManager.h"
+#include <utility>
+
+using namespace std;
 
 /*
 PS4 button codes
@@ -103,5 +106,16 @@ const std::map<InputManager::PS4, std::string> InputManager::ps4Controls = {
 	{ InputManager::TOUCH, "TOUCH PAD" },
 };
 
-template <typename A, typename B>
-void Remap(InputSystem inSys, A control, B rebindTo)
+void InputManager::Update()
+{
+	//Update buttons
+	for (auto &p : *current)
+	{
+		p.second.first.Update();
+		p.second.second.Update();
+	}
+}
+
+void InputManager::Remap(std::string scheme, unsigned int control, int rebindTo, Button::ControlType type, bool secondary)
+{
+}

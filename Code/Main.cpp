@@ -37,6 +37,11 @@ int main()
 					std::cout << inMan.keyboardControls.at((Keyboard::Key)e.key.code) << std::endl;
 				}
 			}
+
+			if (e.type == Event::MouseButtonPressed)
+			{
+				std::cout << e.mouseButton.button << std::endl;
+			}
 		}
 
 		//get keyboard input
