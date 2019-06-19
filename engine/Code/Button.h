@@ -11,9 +11,11 @@ public:
 	// VARIABLES //
 	ControlType controller = None;
 	int button = -1;
+	int controlerId;
 
 	// CONSTRUCTORS //
 	Button(int but, ControlType cont) { controller = cont; button = but; };
+	Button(int but, ControlType cont, int contId) { controller = cont; button = but; controlerId = contId; };
 	~Button() = default;
 
 	// METHODS //
