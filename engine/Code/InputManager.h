@@ -26,6 +26,6 @@ public:
 	~InputManager() = default;
 
 	// METHODS //
-	void Update();
+	void Update(const double &dt);
 	void Remap(std::string scheme, unsigned int control, int rebindTo, Button::ControlType type, bool secondary);
 };

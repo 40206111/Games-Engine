@@ -6,7 +6,7 @@ std::ostream & operator<<(std::ostream & stream, const Button & b)
 	return stream << "temp";
 }
 
-void Button::Update()
+void Button::Update(const double &dt)
 {
 
 	//Reset button states
@@ -30,26 +30,13 @@ void Button::Update()
 			buttonState.set(ButtonDown);
 			buttonState.set(ButtonHeld);
 		}
+		heldTime += (float)dt;
 	}
 	else if (buttonState.test(ButtonHeld))
 	{
 		//button has been released
 		buttonState.reset(ButtonHeld);
 		buttonState.set(ButtonReleased);
+		heldTime = 0;
 	}
-}
-
-bool Button::GetButtonDown()
-{
-	return buttonState.test(ButtonDown);
-}
-
-bool Button::GetButtonHeld()
-{
-	return buttonState.test(ButtonHeld);
-}
-
-bool Button::GetButtonReleased()
-{
-	return buttonState.test(ButtonReleased);
 }

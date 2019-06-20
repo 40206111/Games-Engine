@@ -13,9 +13,12 @@ int main()
 
 	Button b((int)sf::Keyboard::E, Button::ControlType::Keyboard);
 
+	static sf::Clock clock;
+
 	//Run game loop
 	while (window.isOpen())
 	{
+		float dt = clock.restart().asSeconds();
 		window.clear();	//clear window
 
 		Event e;
@@ -46,16 +49,16 @@ int main()
 			//	std::cout << e.mouseButton.button << std::endl;
 			//}
 		}
-		b.Update();
+		b.Update(dt);
 
 		if (b.GetButtonDown())
 		{
 			std::cout << "Button Down" << std::endl;
 		}
 
-		if (b.GetButtonHeld())
+		if (b.GetHeldTime() > 1)
 		{
-			std::cout << "Button Held" << std::endl;
+			std::cout << b.GetHeldTime() << std::endl;
 		}
 
 		if (b.GetButtonReleased())

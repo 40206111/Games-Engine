@@ -106,13 +106,13 @@ const std::map<InputManager::PS4, std::string> InputManager::ps4Controls = {
 	{ InputManager::TOUCH, "TOUCH PAD" },
 };
 
-void InputManager::Update()
+void InputManager::Update(const double &dt)
 {
 	//Update buttons
 	for (auto &p : *current)
 	{
-		p.second.first.Update();
-		p.second.second.Update();
+		p.second.first.Update(dt);
+		p.second.second.Update(dt);
 	}
 }
 

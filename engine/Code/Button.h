@@ -20,15 +20,17 @@ public:
 
 	// METHODS //
 	friend std::ostream& operator<<(std::ostream& stream, const Button& b);
-	void Update();
-	bool GetButtonDown();
-	bool GetButtonHeld();
-	bool GetButtonReleased();
+	void Update(const double &dt);
+	bool GetButtonDown() { return buttonState.test(ButtonDown); }
+	bool GetButtonHeld(){ return buttonState.test(ButtonHeld); }
+	bool GetButtonReleased(){ return buttonState.test(ButtonReleased); }
+	float GetHeldTime() { return heldTime; }
 	float GetAnalogueButtonValue() { return 100; }	//to be overriden
 
 protected:
 	enum ButtonState { ButtonDown, ButtonHeld, ButtonReleased, Other}; //clear words for button states
 	std::bitset<4> buttonState;
+	float heldTime = 0;
 };
 
 
@@ -36,5 +38,8 @@ protected:
 class AnologueButton : Button
 {
 public:
+	sf::Joystick::Axis axis;
+	int direction = 1;
 private:
+	float value = 0;
 };
