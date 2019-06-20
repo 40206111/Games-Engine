@@ -11,7 +11,8 @@ int main()
 	RenderWindow window(VideoMode(800, 600), "TEST");	//make test window
 	InputManager inMan = InputManager();
 
-	Button b((int)sf::Keyboard::E, Button::ControlType::Keyboard);
+
+	Button* b = new Button(3, Button::ControlType::Mouse);
 
 	static sf::Clock clock;
 
@@ -49,19 +50,27 @@ int main()
 			//	std::cout << e.mouseButton.button << std::endl;
 			//}
 		}
-		b.Update(dt);
+		b->Update(dt);
 
-		if (b.GetButtonDown())
+		//std::cout << sf::Joystick::getAxisPosition(0, sf::Joystick::X) << std::endl;
+
+
+		//if (b->GetAnalogueButtonValue() != 0)
+		//{
+		//	std::cout << b->GetAnalogueButtonValue() << std::endl;
+		//}
+
+		if (b->GetButtonDown())
 		{
 			std::cout << "Button Down" << std::endl;
 		}
 
-		if (b.GetHeldTime() > 1)
+		if (b->GetHeldTime() > 1)
 		{
-			std::cout << b.GetHeldTime() << std::endl;
+			std::cout << b->GetHeldTime() << std::endl;
 		}
 
-		if (b.GetButtonReleased())
+		if (b->GetButtonReleased())
 		{
 			std::cout << "Button Released" << std::endl;
 		}
