@@ -2,7 +2,6 @@
 #include "InputManager.h"
 #include <iostream>
 #include <map>
-#include "Button.h" //shouldn't be needed when input manager is set up
 
 using namespace sf;
 
@@ -10,9 +9,18 @@ int main()
 {
 	RenderWindow window(VideoMode(800, 600), "TEST");	//make test window
 	InputManager inMan = InputManager();
+	ControlSystem cs = inMan.CreateControlScheme(InputManager::ControlType::Controller);
+	ControlSystem cs = inMan.CreateControlScheme(InputManager::ControlType::Keyboard);
+	Button b1(0, Button::ControlType::Controller);
+	Button b2(0, Button::ControlType::Controller);
+	cs.controls.insert(std::pair<unsigned int, std::pair<Button, Button>>(0, std::pair<Button, Button>(b1, b2)));
+	b1.button = 1;
+	cs.controls.insert(std::pair<unsigned int, std::pair<Button, Button>>(0, std::pair<Button, Button>(b1, b2)));
+	b1.button = 2;
+	cs.controls.insert(std::pair<unsigned int, std::pair<Button, Button>>(0, std::pair<Button, Button>(b1, b2)));
+	b1.button = 3;
+	cs.controls.insert(std::pair<unsigned int, std::pair<Button, Button>>(0, std::pair<Button, Button>(b1, b2)));
 
-
-	Button* b = new Button(3, Button::ControlType::Mouse);
 
 	static sf::Clock clock;
 
@@ -30,49 +38,17 @@ int main()
 			{
 				window.close();
 			}
-
-			//if (e.type == Event::JoystickButtonPressed) //test PS4
-			//{
-			//	std::cout << inMan.ps4Controls.at((InputManager::PS4)e.joystickButton.button) << std::endl;
-			//}
-
-
-			//if (e.type == Event::KeyPressed) //test	keyboard keys in map
-			//{
-			//	if (inMan.keyboardControls.count((Keyboard::Key)e.key.code) > 0)
-			//	{
-			//		std::cout << inMan.keyboardControls.at((Keyboard::Key)e.key.code) << std::endl;
-			//	}
-			//}
-
-			//if (e.type == Event::MouseButtonPressed)
-			//{
-			//	std::cout << e.mouseButton.button << std::endl;
-			//}
-		}
-		b->Update(dt);
-
-		//std::cout << sf::Joystick::getAxisPosition(0, sf::Joystick::X) << std::endl;
-
-
-		//if (b->GetAnalogueButtonValue() != 0)
-		//{
-		//	std::cout << b->GetAnalogueButtonValue() << std::endl;
-		//}
-
-		if (b->GetButtonDown())
-		{
-			std::cout << "Button Down" << std::endl;
-		}
-
-		if (b->GetHeldTime() > 1)
-		{
-			std::cout << b->GetHeldTime() << std::endl;
-		}
-
-		if (b->GetButtonReleased())
-		{
-			std::cout << "Button Released" << std::endl;
+			if (e.type == sf::Event::JoystickButtonPressed)
+			{
+				std::cout << "Control System changed to controller" << std::endl;
+				inMan.current = &inMan.controlSchemes[0];
+				inMan.current->controllerID = (int)Joystick::getIdentification;
+			}
+			if (e.type == sf::Event::KeyPressed || e.type == sf::Event::MouseButtonPressed)
+			{
+				std::cout << "Control System changed to keyboard and Mouse" << std::endl;
+				inMan.current = &inMan.controlSchemes[1];
+			}
 		}
 
 		//get keyboard input

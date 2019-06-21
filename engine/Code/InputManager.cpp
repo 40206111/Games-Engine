@@ -108,14 +108,22 @@ const std::map<InputManager::PS4, std::string> InputManager::ps4Controls = {
 
 void InputManager::Update(const double &dt)
 {
+	int contId = current->controllerID;
 	//Update buttons
-	for (auto &p : *current)
+	for (auto &p : current->controls)
 	{
-		p.second.first.Update(dt);
-		p.second.second.Update(dt);
+		p.second.first.Update(dt, contId);
+		p.second.second.Update(dt, contId);
 	}
 }
 
-void InputManager::Remap(std::string scheme, unsigned int control, int rebindTo, Button::ControlType type, bool secondary)
+void InputManager::Remap(std::string scheme, unsigned int control, int rebindTo, ControlType type, bool secondary)
 {
+}
+
+ControlSystem InputManager::CreateControlScheme(ControlType cs)
+{
+	ControlSystem newSystem;
+	newSystem.controlScheme = cs;
+	controlSchemes.push_back(newSystem);
 }

@@ -9,19 +9,17 @@ class Button
 public:
 	enum ControlType { Keyboard, Mouse, Controller, None = -1 };
 	// VARIABLES //
-	ControlType controller = None;
+	ControlType controller = ControlType::None;
 	int button = -1;
-	int controlerId;
 
 	// CONSTRUCTORS //
 	Button(int but, ControlType cont) { controller = cont; button = but; }
-	Button(int but, ControlType cont, int contId) { controller = cont; button = but; controlerId = contId; }
 	Button() {}
 	~Button() = default;
 
 	// METHODS //
 	friend std::ostream& operator<<(std::ostream& stream, const Button& b);
-	virtual void Update(const double &dt);
+	virtual void Update(const double &dt, int controlerId);
 	bool GetButtonDown() { return buttonState.test(ButtonDown); }
 	bool GetButtonHeld(){ return buttonState.test(ButtonHeld); }
 	bool GetButtonReleased(){ return buttonState.test(ButtonReleased); }
@@ -45,15 +43,15 @@ public:
 	float deadZone = 50.0f;
 
 	// CONSTRUCTORS //
-	AnologueButton(sf::Joystick::Axis ax, int dir, int contId) { direction = dir; axis = ax; controlerId = contId; };
-	AnologueButton(sf::Joystick::Axis ax, int dir, int contId, float dz) { direction = dir; axis = ax; controlerId = contId; deadZone = dz; };
-	AnologueButton(sf::Joystick::Axis ax, int contId) { axis = ax; controlerId = contId; };
-	AnologueButton(sf::Joystick::Axis ax, int contId, float dz) { axis = ax; controlerId = contId; deadZone = dz; };
+	AnologueButton(sf::Joystick::Axis ax, int dir) { direction = dir; axis = ax;};
+	AnologueButton(sf::Joystick::Axis ax, int dir, float dz) { direction = dir; axis = ax; deadZone = dz; };
+	AnologueButton(sf::Joystick::Axis ax) { axis = ax;};
+	AnologueButton(sf::Joystick::Axis ax, float dz) { axis = ax; deadZone = dz; };
 	~AnologueButton() = default;
 
 	// METHODS //
 	friend std::ostream& operator<<(std::ostream& stream, const Button& b);
-	void Update(const double &dt) override;
+	void Update(const double &dt, int controlerId) override;
 	float GetAnalogueButtonValue() override { return (value * direction > 0)? value : 0; }
 private:
 	float value = 0.0f;

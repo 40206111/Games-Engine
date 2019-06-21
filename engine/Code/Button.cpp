@@ -6,7 +6,7 @@ std::ostream & operator<<(std::ostream & stream, const Button & b)
 	return stream << "temp";
 }
 
-void Button::Update(const double &dt)
+void Button::Update(const double &dt, int controlerId)
 {
 	//Reset button states
 	if (buttonState.test(ButtonDown))
@@ -19,9 +19,9 @@ void Button::Update(const double &dt)
 	}
 
 	//check if button has been pressed
-	if ((controller == Controller && sf::Joystick::isButtonPressed(controlerId, button)) ||
-		(controller == Keyboard && sf::Keyboard::isKeyPressed((sf::Keyboard::Key)button)) ||
-		(controller == Mouse && sf::Mouse::isButtonPressed((sf::Mouse::Button)button)))
+	if ((controller == ControlType::Controller && sf::Joystick::isButtonPressed(controlerId, button)) ||
+		(controller == ControlType::Keyboard && sf::Keyboard::isKeyPressed((sf::Keyboard::Key)button)) ||
+		(controller == ControlType::Mouse && sf::Mouse::isButtonPressed((sf::Mouse::Button)button)))
 	{
 		//set button states
 		if (!buttonState.test(ButtonHeld))
@@ -40,7 +40,7 @@ void Button::Update(const double &dt)
 	}
 }
 
-void AnologueButton::Update(const double & dt)
+void AnologueButton::Update(const double & dt, int controlerId)
 {
 	//Reset button states
 	if (buttonState.test(ButtonDown))
