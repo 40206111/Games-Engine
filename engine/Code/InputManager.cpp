@@ -1,5 +1,6 @@
 #include "InputManager.h"
 #include <utility>
+#include <cmath>
 
 using namespace std;
 
@@ -117,13 +118,58 @@ void InputManager::Update(const double &dt)
 	}
 }
 
-void InputManager::Remap(std::string scheme, unsigned int control, int rebindTo, ControlType type, bool secondary)
+void InputManager::Remap(std::string scheme, unsigned int control, int rebindTo, ControlSystem::ControlType type, bool secondary)
 {
 }
 
-ControlSystem InputManager::CreateControlScheme(ControlType cs)
+ControlSystem* InputManager::CreateControlScheme(ControlSystem::ControlType cs)
 {
-	ControlSystem newSystem;
-	newSystem.controlScheme = cs;
+	ControlSystem* newSystem = new ControlSystem();
+	newSystem->controlScheme = cs;
 	controlSchemes.push_back(newSystem);
+	if (current = nullptr) current = newSystem;
+	return newSystem;
+}
+
+bool InputManager::GetButtonDown(int control)
+{
+	if (current->controls[control].first.GetButtonDown() || current->controls[control].first.GetButtonDown())
+		return true;
+	return false;
+}
+
+bool InputManager::GetButtonHeld(int control)
+{
+	if (current->controls[control].first.GetButtonHeld() || current->controls[control].first.GetButtonHeld())
+		return true;
+	return false;
+}
+
+bool InputManager::GetButtonReleased(int control)
+{
+	if (current->controls[control].first.GetButtonReleased() || current->controls[control].first.GetButtonReleased())
+		return true;
+	return false;
+}
+
+float InputManager::GetButtonValue(int control)
+{
+	float value1 = current->controls[control].first.GetAnalogueButtonValue();
+	float value2 = current->controls[control].second.GetAnalogueButtonValue();
+
+	if (std::abs(value1) > std::abs(value2))
+		return value1;
+	else
+		return value2;
+}
+
+float InputManager::GetButtonHeldTime(int control)
+{
+	float value1 = current->controls[control].first.GetHeldTime();
+	float value2 = current->controls[control].second.GetHeldTime();
+
+	if (value1 > value2)
+		return value1;
+	else
+		return value2;
 }
