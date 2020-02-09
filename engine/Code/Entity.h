@@ -16,6 +16,6 @@ protected:
 public:
 	Entity();
 	virtual ~Entity();
-	virtual void Update();
+	virtual void Update(double deltaTime);
 	virtual void Render();
 };
