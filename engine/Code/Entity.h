@@ -1,8 +1,9 @@
 #pragma once
-#include "Component.h"
 #include "Maths.h"
 #include <vector>
 #include <memory>
+
+class Component;
 
 class Entity
 {
@@ -18,4 +19,16 @@ public:
 	virtual ~Entity();
 	virtual void Update(double deltaTime);
 	virtual void Render();
+
+	void SetPosition(const sf::Vector2f &pos);
+	sf::Vector2f GetPosition() { return pos; }
+
+	template <typename T, typename... Targs>
+	std::shared_ptr<T> AddComponent(Targs... params)
+	{
+		static_assert(std::is_base_of<Component, T>::value, "Type given must inherit from Component");
+		std::shared_ptr<T> componentToAdd(std::make_shared<T>(this, params...));
+		components.push_back(componentToAdd);
+		return componentToAdd;
+	}
 };
